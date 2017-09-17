@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        int len = nums.size();             //count the length
+        int i, j, temp;
+        vector<int> index;                 //the index of the answer
+        for(i = 0; i < len; i++)           //check every pair of elements in the array
+        {
+            temp = target - nums[i];       //calculate the other number
+            for(j = i + 1; j < len; j++)
+            {
+                if(nums[j] == temp)        //if find answer return the indices
+                {
+                    index.push_back(i);
+                    index.push_back(j);
+                    return index;
+                }
+            }
+        }
+    }
+};
