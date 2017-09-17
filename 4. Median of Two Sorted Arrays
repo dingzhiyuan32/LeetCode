@@ -1,0 +1,65 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int i1 = 0, i2 = 0;
+        int i = 0;
+        int n1 = nums1.size();
+        int n2 = nums2.size();
+        int n = n1 + n2;                  //calculate the total number of elements
+        if((n % 2) == 1)                  //discuss whether the total number is odd or even
+        {
+            while(i < n / 2)              //find the median
+            {
+                if(i2 == n2 || (i1 < n1 && nums1[i1] < nums2[i2]))
+                {
+                    i1++;
+                }
+                else
+                {
+                    i2++;
+                }
+                i++;
+            }
+            if(i2 == n2 || (i1 < n1 && nums1[i1] < nums2[i2]))
+            {
+                return nums1[i1];
+            }
+            else
+            {
+                return nums2[i2];
+            }
+        }
+        else                  //if total number is even then median is average of 2 numbers
+        {
+            while(i < n / 2 - 1)          //find median 2 numbers
+            {
+                if(i2 == n2 || (i1 < n1 && nums1[i1] < nums2[i2]))
+                {
+                    i1++;
+                }
+                else
+                {
+                    i2++;
+                }
+                i++;
+            }
+            double median = 0;
+            for(int k = 0; k < 2; k++)     //calculate the median of 2 numbers
+            {
+                if(i2 == n2 || (i1 < n1 && nums1[i1] < nums2[i2]))
+                {
+                    median += nums1[i1];
+                    i1++;
+                }
+                else
+                {
+                    median += nums2[i2];
+                    i2++;
+                }
+            }
+            median = median / 2;
+            return median;
+        }
+            
+    }
+};
