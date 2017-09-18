@@ -1,0 +1,98 @@
+class Solution {
+public:
+    //sort the array first. then for every numbers, take it as the smallest number and
+    //  use head and tail pointer to find the other two numbers in the rest of array
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int len = nums.size();
+        int i, j, k;
+        vector<vector<int>> result;
+        quickSort(nums, 0, len - 1);              //sort the array first
+        
+        for(i = 0; i < len - 2; i++)
+        {
+            if(i > 0 && nums[i] == nums[i - 1])   //ignore repetitive numbers
+                continue;
+            for(j = i + 1, k = len - 1; j < k; )  //for every number, use head and tail pointer
+            {
+                int sum = nums[i] + nums[j] + nums[k];
+                if(sum == 0)
+                {
+                    vector<int> temp = {nums[i], nums[j], nums[k]}; //save the answer
+                    result.push_back(temp);
+                    j++;
+                    while(nums[j] == nums[j - 1] && j < k)          //find next answer
+                    {
+                        j++;
+                    }
+                    k--;
+                    while(nums[k] == nums[k + 1] && j < k)
+                    {
+                        k--;
+                    }
+                    
+                }
+                else if(sum < 0)                   //increase the smaller one if sum < 0
+                {
+                    j++;
+                    while(nums[j] == nums[j - 1] && j < k)
+                    {
+                        j++;
+                    }
+                }
+                else                               //decrease the larger one if sum > 0
+                {
+                    k--;
+                    while(nums[k] == nums[k + 1] && j < k)
+                    {
+                        k--;
+                    }
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    //use quick sort to sort the array with recursion
+    //@param a The array to be quicksort
+    //@param p&r The elements between p and r will be sorted
+    void quickSort(vector<int>& a, int p, int r)
+    {
+	    if(p < r)
+	    {
+		    int q = partition(a, p, r);    //patition the array
+		    quickSort(a, p, q - 1);        //quick sort a[p...q-1]
+    		quickSort(a, q + 1, r);        //quick sort a[q+1...r]
+	    }
+    }
+    
+    //partition the array. every element less than a[r] will be on the left of a[r]
+    //  every element larger than a[r] will be on the right of a[r].
+    //@param p & r The array between a[p] and a[r] will be partitioned
+    //@return The new position of a[r]
+    int partition(vector<int>& a, int p, int r)
+    {
+	    int i = p - 1;
+	    int x = a[r];
+	    for(int j = p; j < r; j++)
+	    {
+	    	if(a[j] < x)
+		    {
+			    i++;
+			    exchange(a, i, j);
+		    }
+	    }
+	    exchange(a, i + 1, r);             //put a[r] on the right position
+	    return(i + 1);                     //return the new position of a[r]
+    }
+    
+    //exchange two elements in the array with indices
+    //@param a The array to be exchange
+    //@param i&j The indices to be exchange
+    void exchange(vector<int>& a, int i, int j)
+    {
+	    int temp = a[i];
+	    a[i] = a[j];
+	    a[j] = temp;
+    }
+};
