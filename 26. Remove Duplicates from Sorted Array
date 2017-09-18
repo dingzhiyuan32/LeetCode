@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int len = nums.size();
+        if(len == 0)                               //return 0 if no number in array
+        {
+            return(0);
+        }
+        int i = 0;
+        int j = 0;
+        for(; j < len; j++)
+        {
+            if(j > 0 && nums[j] != nums[j - 1])    //find every different number
+            {
+                i++;
+                nums[i] = nums[j];                 //remove duplicates
+            }
+        }
+        return(i + 1);                             //elements before i+1 are different numbers
+        
+    }
+};
