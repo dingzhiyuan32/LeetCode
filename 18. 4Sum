@@ -1,0 +1,103 @@
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int len = nums.size();
+        int i, j, k, l;
+        vector<vector<int>> result;
+        quickSort(nums, 0, len - 1);                            //sort the array first
+        
+        //for every pair of numbers, use head and tail pointer to find the answer in the rest of array
+        for(i = 0; i < len - 3; i++)
+        {
+            if(i > 0 && nums[i] == nums[i - 1])                 //ignore repetitive number
+                continue;
+            for(j = i + 1; j < len - 2; j++)
+            {
+                if(j > i + 1 && nums[j] == nums[j - 1])
+                    continue;
+                k = j + 1;                                      //head pointer
+                l = len - 1;                                    //tail pointer
+                while(k < l)
+                {
+                    int sum = nums[i] + nums[j] + nums[k] + nums[l];
+                    if(sum == target)                           //save answer if sum = target
+                    {
+                        vector<int> temp = {nums[i], nums[j], nums[k], nums[l]};
+                        result.push_back(temp);
+                        k++;                                    //try to find another answer
+                        while(k < l && nums[k] == nums[k - 1])
+                        {
+                            k++;
+                        }
+                        l--;
+                        while(k < l && nums[l] == nums[l + 1])
+                        {
+                            l--;
+                        }
+                    }
+                    else if(sum < target)                       //increase head pointer if sum < target
+                    {
+                        k++;
+                        while(k < l && nums[k] == nums[k - 1])
+                        {
+                            k++;
+                        }
+                    }
+                    else                                        //decrease tail pointer if sum > target
+                    {
+                        l--;
+                        while(k < l && nums[l] == nums[l + 1])
+                        {
+                            l--;
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+        
+    }
+    
+    //use quick sort to sort the array
+    //@param a The array to be sorted
+    //@param p&r The elements between p & r will be sorted
+    void quickSort(vector<int>& a, int p, int r)
+    {
+    	if(p < r)
+    	{
+    		int q = partition(a, p, r);    //patition the array
+    		quickSort(a, p, q - 1);        //quick sort a[p...q-1]
+    		quickSort(a, q + 1, r);        //quick sort a[q+1...r]
+    	}
+    }
+    
+    //partition the array to quick sort
+    //@param a The array to be partitioned
+    //@param p&r The elements between p and r will be sorted
+    int partition(vector<int>& a, int p, int r)
+    {
+    	int i = p - 1;
+    	int x = a[r];
+    	for(int j = p; j < r; j++)
+    	{
+    		if(a[j] < x)
+    		{
+    			i++;
+    			exchange(a, i, j);
+    		}
+    	}
+    	exchange(a, i + 1, r);             //put a[r] on the right position
+    	return(i + 1);                     //return the new position of a[r]
+    }
+    
+    //exchange two elements in the array
+    //@param a The array to be exchanged
+    //@param i&j The indices to be exchanged
+    void exchange(vector<int>& a, int i, int j)
+    {
+	    int temp = a[i];
+    	a[i] = a[j];
+    	a[j] = temp;
+    }
+    
+};
