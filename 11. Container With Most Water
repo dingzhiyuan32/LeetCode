@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int len = height.size();
+        int result = 0;
+        
+        //for every lines, take this line as the shorter line of the cup
+        for(int i = 0; i < len; i++)
+        {
+            //for every lines longer than height[i], area = distance * height[i]
+            for(int j = len - 1; j > i; j--)
+            {
+                if(height[j] >= height[i])
+                {
+                    int a = (j - i) * height[i];
+                    if(a > result)
+                    {
+                        result = a;
+                    }
+                    break;    //find the biggest area with height[i] as shorter line
+                }
+                
+            }
+            for(int j = 0; j < i; j++)
+            {
+                if(height[j] >= height[i])
+                {
+                    int a = (i - j) * height[i];
+                    if(a > result)
+                    {
+                        result = a;
+                    }
+                    break;
+                }
+                
+            }
+            
+        }
+        return result;
+    }
+};
