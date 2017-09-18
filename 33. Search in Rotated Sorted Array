@@ -1,0 +1,96 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int len = nums.size();
+        if(len == 0)                                  //if no number in the array return -1
+        {
+            return(-1);
+        }
+        return(biSearch(nums, target, 0, len - 1));   //use binary search to find the target
+    }
+    
+    //Use binary search to find target in rotated sorted array with recursion.
+    //@param nums The array to be searched in.
+    //@param target The target to be searched.
+    //@param p, r The elements between p and r will be checked.
+    int biSearch(vector<int>& nums, int target, int p, int r)
+    {
+        if(nums[p] == target)                         //check p and r firstt
+        {
+            return(p);
+        }
+        else if(nums[r] == target)
+        {
+            return(r);
+        }
+        else if(p == r)                               //if no other element in array, return -1
+        {
+            return(-1);
+        }
+        else if(p > r)
+        {
+            return(-1);
+        }
+        else                                          //search the element between p and r
+        {
+            if(nums[p] < nums[r])                     //the array between p and r is sorted
+            {
+                if(target < nums[p] || target > nums[r])   //if target is not in the range, return -1
+                {
+                    return(-1);
+                }
+                else
+                {
+                    int q = (p + r) / 2;              //use binary search to find target with recursion
+                    if(nums[q] == target)             //check median element first
+                    {
+                        return(q);
+                    }
+                    else if(nums[q] > target)         //use binary search in left sub array
+                    {
+                        return(biSearch(nums, target, p + 1, q - 1));
+                    }
+                    else                              //use binary search in right sub array
+                    {
+                        return(biSearch(nums, target, q + 1, r - 1));
+                    }
+                }
+                
+                
+            }
+            else                                      //the elements are rotated sorted
+            {
+                int q = (p + r) / 2;
+                if(nums[q] == target)                 //check median element first
+                {
+                    return(q);
+                }
+                else if(nums[q] >= nums[p])           //the elements between p and q is sorted
+                {
+                    //if target in the range, find target between p+1 and q-1
+                    if(nums[q] > target && nums[p] < target)
+                    {
+                        return(biSearch(nums, target, p + 1, q - 1));
+                    }
+                    //if target not in the range, find between q+1 and r-1
+                    else
+                    {
+                        return(biSearch(nums, target, q + 1, r - 1));
+                    }
+                }
+                else                                  //the elements between q and r is sorted
+                {
+                    if(nums[q] < target && nums[r] > target)
+                    {
+                        return(biSearch(nums, target, q + 1, r - 1));
+                        
+                    }
+                    else
+                    {
+                        return(biSearch(nums, target, p + 1, q - 1));
+                    }
+                }
+            }
+        }
+    }
+};
