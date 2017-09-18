@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int removeElement(vector<int>& nums, int val) {
+        int i, j;
+        int len = nums.size();
+        int result = len;
+        for(i = j = 0; j < len; j++)
+        {
+            if(nums[j] != val)         //if element != val, save the element
+            {
+                nums[i] = nums[j];
+                i++;
+                
+            }
+            else                       //if element = val, decrease the length
+            {
+                result--;
+            }
+        }
+        return result;
+        
+    }
+};
