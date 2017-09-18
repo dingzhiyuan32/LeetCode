@@ -1,0 +1,96 @@
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        int temp;                                             //temp is the difference between sum and target now
+        int diff = abs(nums[0] + nums[1] + nums[2] - target); //diff is the smallest difference between sum and target
+        int result = nums[0] + nums[1] + nums[2];             //the sum closet to target
+        int len = nums.size();
+        quickSort(nums, 0, len - 1);                          //sort the array first
+        
+        //for every number, use head and tail pointer to find the closet answer in the rest of the array
+        for(int i = 0; i < len - 2;)
+        {
+            int j = i + 1;                                    //head pointer
+            int k = len - 1;                                  //tail pointer
+            while(j < k)
+            {
+                temp = nums[i] + nums[j] + nums[k] - target;  //the difference now
+                if(abs(temp) < diff)                          //find new closet sum then save
+                {
+                    diff = abs(temp);
+                    result = nums[i] + nums[j] + nums[k];
+                }
+                if(temp == 0)                                 //if sum=target then end the program
+                {
+                    return(result);
+                }
+                else if(temp > 0)                             //if sum>target then decrease the larger number
+                {
+                    k--;
+                    while(j < k && nums[k] == nums[k + 1])
+                    {
+                        k--;
+                    }
+                }
+                else                                          //if sum<target then increase the smaller number
+                {
+                    j++;
+                    while(j < k && nums[j] == nums[j - 1])
+                    {
+                        j++;
+                    }
+                }
+            }
+            i++;
+            while(i > 0 && i < len - 2 && nums[i] == nums[i - 1])
+            {
+                i++;
+            }
+        }
+        return result;
+    }
+    
+    //exchange two numbers in the array
+    //@param a The array to be exchanged
+    //@param i&j The indices to be exchanged
+    void exchange(vector<int>& a, int i, int j)
+    {
+	    int temp = a[i];
+    	a[i] = a[j];
+    	a[j] = temp;
+    }
+    
+    //partition the array for sort
+    //@param a The array to be partition
+    //@param p&r The array between p and r will be partition
+    int partition(vector<int>& a, int p, int r)
+    {
+        int i = p - 1;
+    	int x = a[r];
+    	for(int j = p; j < r; j++)
+    	{
+    		if(a[j] < x)
+    		{
+    			i++;
+    			exchange(a, i, j);
+    		}
+    	}
+    	exchange(a, i + 1, r);             //put a[r] on the right position
+    	return(i + 1);                     //return the new position of a[r]
+        
+    }
+    
+    //quick sort the array with recursion
+    //@param a The array to be sorted
+    //@param p&r The array between p and r will be sorted
+    void quickSort(vector<int>& a, int p, int r)
+    {
+        if(p < r)
+        {
+            int q = partition(a, p, r);
+            quickSort(a, p, q - 1);
+            quickSort(a, q + 1, r);
+        }
+
+    }
+};
