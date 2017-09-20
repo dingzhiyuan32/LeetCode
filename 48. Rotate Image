@@ -1,0 +1,30 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n = matrix.size();                            //count the order of matrix
+        //use function to exchange positions of one and other three elements.
+        for(int i = 0; i < (n + 1) / 2; i++)
+        {
+            for(int j = i; j < n - 1 - i; j++)
+            {
+                exchange(matrix, n, i, j);
+            }
+        }
+        
+    }
+    
+    //exchange positions of 4 elements in matrix for rotation. After rotation, every
+    //  of the 4 elements will be in position of another position.
+    //@param matrix The matrix to be rotated.
+    //@param n The order of the matrix.
+    //@param i, j The indices of first element to be rotated.
+    void exchange(vector<vector<int>>& matrix, int n, int i, int j)
+    {
+        int temp = matrix[i][j];
+        //do the rotation
+        matrix[i][j] = matrix[n - 1 - j][i];
+        matrix[n - 1 - j][i] = matrix[n - 1 - i][n - 1 - j];
+        matrix[n - 1 - i][n - 1 - j] = matrix[j][n - 1 - i];
+        matrix[j][n - 1 - i] = temp;
+    }
+};
