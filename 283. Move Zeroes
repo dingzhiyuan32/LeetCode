@@ -1,0 +1,27 @@
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int len = nums.size();
+        int i = 0, j = 0;
+        while(j < len && nums[j] != 0)    //move j pointer to first zero
+        {
+            j++;
+        }
+        i = j;
+        while(j < len)
+        {
+            if(nums[j] == 0)              //ignore zero
+            {
+                j++;
+            }
+            else
+            {
+                nums[i] = nums[j];        //move non-zero numbers to the position of first zero
+                nums[j] = 0;              //set this number to zero
+                i++;
+                j++;
+            }
+        }
+        
+    }
+};
