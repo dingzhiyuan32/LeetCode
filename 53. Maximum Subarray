@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int len = nums.size();
+        int max = nums[0];            //initialize max value with nums[0]
+        int sum = max;
+        int i;
+        for(i = 1; i < len; i++)
+        {
+            //if sum > 0, sum + nums[i] will be larger than nums[i]. The max sum with
+            //  nums[i] being the last number will be sum + nums[i]. If sum <= 0, sum
+            //  + nums[i] < nums[i]. The max sum ended by nums[i] will be nums[i].
+            if(sum > 0)
+            {
+                sum = sum + nums[i];
+            }
+            else
+            {
+                sum = nums[i];
+            }
+            if(sum > max)
+            {
+                max = sum;
+            }
+        }
+        return max;
+        
+    }
+};
