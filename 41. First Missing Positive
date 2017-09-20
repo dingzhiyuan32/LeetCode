@@ -1,0 +1,37 @@
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int len = nums.size();
+        if(len == 0)                                    //if no number in array, return 1
+        {
+            return(1);
+        }
+        for(int i = 0; i < len; )                       //check every elements in array
+        {
+            if(nums[i] - 1 == i || nums[i] > len || nums[i] <= 0 || nums[nums[i] - 1] == nums[i])
+            {
+                i++;
+            }
+            else                                        //put the number on right position if in range [1, len]
+            {
+                exchange(nums, nums[i] - 1, i);
+            }
+        }
+        for(int i = 0; i < len; i++)                    //find first missing positive integer
+        {
+            if(nums[i] != i + 1)
+            {
+                return(i + 1);
+            }
+        }
+        return(len + 1);                                //return len + 1 if no missing numbers
+    }
+    
+    //exchange two numbers in the array
+    void exchange(vector<int>& nums, int i, int j)
+    {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+};
