@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        int len = nums.size();
+        set<int> numsCopy;                          //save numbers which has been checked
+        for(auto n : nums)                          //check every element in vector
+        {
+            if(numsCopy.find(n) == numsCopy.end())  //if not find in set, insert it to set
+            {
+                numsCopy.insert(n);
+            }
+            else                                    //if find in set, return true
+            {
+                return(true);
+            }
+        }
+        return(false);                              //return false if every element not found in set
+    }
+};
