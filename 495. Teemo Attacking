@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findPoisonedDuration(vector<int>& timeSeries, int duration) {
+        int num = timeSeries.size();
+        int result = 0;
+        if(num == 0)                                  //if no attack, answer is 0
+            return 0;
+        for(int i = 0; i < num - 1; i++)
+        {
+            int x = timeSeries[i + 1] - timeSeries[i];//count the inteval of two attack
+            if(x < duration)                          //the inteval is all in attack
+            {
+                result += x;
+            }
+            else                                      //attack time is duration
+            {
+                result += duration;
+            }
+        }
+        result += duration;                           //add on the last attack
+        return result;
+                
+    }
+};
