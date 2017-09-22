@@ -1,0 +1,39 @@
+class Solution {
+public:
+    bool checkPossibility(vector<int>& nums) {
+        int len = nums.size();
+        int k = 0;
+        int i;
+        //if nums[1] < nums[0], we can modify nums[0] to get
+        //  a non-decreasing array
+        if(nums[1] < nums[0])
+        {
+            k++;
+            nums[0] = nums[1];
+        }
+        //if other nums[i + 1] < nums[i], we can modify nums[i]
+        //  if nums[i + 1] is larger than nums[i - 1], or we can
+        //  modify nums[i + 1]. modifying nums[i] is better
+        //  for nums[i + 2] > nums[i + 1].
+        for(i = 1; i < len - 1; i++)
+        {
+            if(nums[i + 1] < nums[i])
+            {
+                if(nums[i + 1] < nums[i - 1])
+                {
+                    nums[i + 1] = nums[i];
+                }
+                else
+                {
+                    nums[i] = nums[i + 1];
+                }
+                k++;
+                if(k > 1)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
