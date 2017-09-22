@@ -1,0 +1,47 @@
+class Solution {
+public:
+    vector<int> constructArray(int n, int k) {
+        vector<int> result;
+        int i = 1;
+        int j = n;
+        int x = 0;
+        int k0 = k;
+        //arrange array in the order of 1, n, 2, n - 1, 3, n - 2, ...
+        //  to create k distinct differences
+        while(k0 >= 1)
+        {
+            if(x % 2 == 0)
+            {
+                result.push_back(i);
+                i++;
+            }
+            else
+            {
+                result.push_back(j);
+                j--;
+            }
+            x++;
+            k0--;
+        }
+        //add rest elements in increasing order or decreasing order
+        //  depend on the last number which has been added into array
+        if(x % 2 == 1)
+        {
+            while(i <= j)
+            {
+                result.push_back(i);
+                i++;
+            }
+        }
+        else
+        {
+            while(i <= j)
+            {
+                result.push_back(j);
+                j--;
+            }
+        }
+        return result;
+        
+    }
+};
