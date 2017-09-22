@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+        int r0 = nums.size();          //count the row number of original matrix
+        int c0 = nums[0].size();       //count the colomn number of original matrix
+        if(r0 * c0 == r * c)           //check if reshape is possible
+        {
+            vector<vector<int>> result;
+            int p0 = 0;                //p0 and q0 are pointers to original matrix elements
+            int q0 = 0;
+            for(int p = 0; p < r; p++) //p and q are pointers to result matrix elements
+            {
+                vector<int> temp;      //row array of new matrix
+                for(int q = 0; q < c; q++)
+                {
+                    temp.push_back(nums[p0][q0]);
+                    q0++;              //update pointers to next elements
+                    if(q0 >= c0)
+                    {
+                        q0 = 0;
+                        p0++;
+                    }
+                }
+                result.push_back(temp);//add row array to new matrix
+            }
+            return result;
+        }
+        else{                          //if reshape is impossible return original matrix
+            return nums;
+        }
+    }
+};
