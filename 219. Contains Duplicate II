@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        //use map to save elements and newest index. first int is value of element. second
+        //  int is index in original array.
+        map<int, int> numsCopy;
+        for(int i = 0; i < nums.size(); i++)
+        {
+            if(numsCopy.find(nums[i]) == numsCopy.end())   //check whether is already in map
+            {
+                numsCopy.insert({nums[i], i});             //insert if not in map
+            }
+            else
+            {
+                if(i - numsCopy.find(nums[i])->second > k) //check index. if >k, update newest element
+                {
+                    numsCopy.erase(nums[i]);
+                    numsCopy.insert({nums[i], i});
+                }
+                else                                       //if absolute difference < k, return true
+                    return(true);
+            }
+        }
+        return(false);                                     //if every element not in map, return false
+    }
+};
