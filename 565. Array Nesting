@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int arrayNesting(vector<int>& nums) {
+        int result = 0;
+        int len = nums.size();
+        vector<int> s(len, 0);                    //The array of S[k].
+        for(int i = 0; i < nums.size(); i++)      //Check every number.
+        {
+            if(s[i] == 0)                         //If S[k] has not be counted.
+            {
+                set<int> temp;                    //Use set to save the nest.
+                int n = nums[i];
+                while(temp.find(n) == temp.end()) //If n is not in set, insert n.
+                {
+                    temp.insert(n);
+                    n = nums[n];                  //Move n to next element.
+                }
+                int tempSize = temp.size();       //Count S[i].
+                for(auto c : temp)                //For every element in this set, S[k] is the same.
+                {
+                    s[c] = tempSize;
+                }
+                if(tempSize > result)
+                {
+                    result = tempSize;
+                }
+            }
+        }
+        return result;
+    }
+};
