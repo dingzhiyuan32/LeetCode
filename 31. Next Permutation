@@ -1,0 +1,53 @@
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        
+        int i = nums.size() - 1;           //check from last element
+        while(i > 0)
+        {
+            if(nums[i - 1] < nums[i])      //find first i that nums[i - 1] < nums[i]
+            {
+                break;
+            }
+            i--;
+        }
+        if(i == 0)                         //means whole array is in decreasing order
+        {
+            rearrange(nums, i);            //output array in increasing order
+        }
+        else                               //the elements behind i is in decreasing order
+        {
+            int j = i;
+            while(j < nums.size())         //find last one larger than nums[i - 1]
+            {
+                if(nums[j] <= nums[i - 1])
+                {
+                    break;
+                }
+                j++;
+            }
+            int temp = nums[j - 1];        //exchange nums[i - 1] with smallest number larger than nums[i - 1]
+            nums[j - 1] = nums[i - 1];
+            nums[i - 1] = temp;
+            rearrange(nums, i);            //rearrange elements from i from decreasing to increasing order
+        }
+        
+    }
+    
+    //reversely sort array from i to last element
+    //@param nums The array to be rearranged
+    //@param i The array will be reversely arranged from i to last
+    void rearrange(vector<int>& nums, int i)
+    {
+        int j = nums.size() - 1;           //use i and j as pointers pointing to two numbers
+        int temp;
+        while(i < j)
+        {
+            temp = nums[i];                //exchange this two numbers
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+    }
+};
