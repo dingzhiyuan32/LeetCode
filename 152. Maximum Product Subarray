@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        //The max product of a subarray end with nums[i] is nums[i] itself or
+        //  the product of nums[i] and max or min product of subarray end with
+        //  nums[i - 1].
+        int maxResult = nums[0];                       //max product found so far
+        //int minResult = nums[0];
+        int maxTemp = nums[0];                         //max product of array end with nums[i - 1]
+        int minTemp = nums[0];                         //min product of array end with nums[i - 1]
+        for(int i = 1; i < nums.size(); i++)
+        {
+            //if nums[i] < 0, max product is between nums[i] and nums[i] * min product of nums[i - 1]
+            //if nums[i] > 0, max product is between nums[i] and nums[i] * max product of nums[i - 1]
+            
+            if(nums[i] < 0)
+            {
+                int p = maxTemp;
+                maxTemp = minTemp;
+                minTemp = p;
+            }
+            maxTemp = max(maxTemp * nums[i], nums[i]);  //update maxTemp and minTemp
+            minTemp = min(minTemp * nums[i], nums[i]);
+            maxResult = max(maxResult, maxTemp);        //update maxResult so far
+            //minResult = min(minResult, minTemp);
+        }
+        return maxResult;
+        
+        //Simplest dynamic programming with O(n^2) running time. Time limit exceeded.
+        /*
+        int maxProduct = nums[0];
+        vector<int> temp(nums.size(), 1);
+        vector<vector<int>> product(nums.size(), temp);
+        for(int i = 0; i < nums.size(); i++)
+        {
+            product[i][i] = nums[i];
+            if(product[i][i] > maxProduct)
+            {
+                maxProduct = product[i][i];
+            }
+            for(int j = i + 1; j < nums.size(); j++)
+            {
+                product[i][j] = product[i][j - 1] * nums[j];
+                if(product[i][j] > maxProduct)
+                {
+                    maxProduct = product[i][j];
+                }
+            }
+        }
+        return maxProduct;
+        */
+    }
+};
